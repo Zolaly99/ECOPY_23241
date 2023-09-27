@@ -3,6 +3,7 @@
 
 #CDF
 
+import random
 import math
 import pyerf
 
@@ -38,8 +39,8 @@ class UniformDistribution:
             self.p = self.a + (self.b-self.a)*self.p
         return self.p
 
-    def gen_random(self):
-        return random.uniform(self.a, self.b)
+    def gen_rand(self):
+        return self.ppf(self.rand.random())
 
     def mean(self):
         return 0.5*(self.a+self.b)
@@ -88,8 +89,8 @@ class NormalDistribution:
         self.p = p
         return pyerf.erfinv(2*p-1)*denominator+self.loc
 
-    def gen_random(self):
-        return random.normalvariate(self.loc, self.scale)
+    def gen_rand(self):
+        return self.ppf(self.rand.random())
 
     def mean(self):
         return self.loc
@@ -133,8 +134,8 @@ class CauchyDistribution:
         parentheses = math.pi*(self.p - 0.5)
         return self.loc + self.scale*math.tan(parentheses)
 
-    def gen_random(self):
-        return random.standard_cauchy()*self.scale + self.loc
+    def gen_rand(self):
+        return self.ppf(self.rand.random())
 
     def mean(self):
         raise Exception("Moments undefined")
