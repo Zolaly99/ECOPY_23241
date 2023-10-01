@@ -1,5 +1,6 @@
 
 import math
+import numpy
 
 class LaplaceDistribution:
     def __init__(self, rand, loc, scale):
@@ -7,16 +8,54 @@ class LaplaceDistribution:
         self.loc = loc
         self.scale = scale
 
-    def sign(input_value: float) -> float:
-        return copysign(1, input_value)
+    def sign(self, input_value: float) -> float:
+        return math.copysign(1, input_value)
 
     def pdf(self, x):
         self.x = x
-        y = self.x - self.loc
-        return 1/(2*self.loc)*math.e**(-(self.sign(y))/self.scale)
 
+        if self.sign(self.x-self.loc) == 1:
 
+            y1 = self.x-self.loc
+            power = -(y1/self.scale)
+            return 1/(2*self.scale)*math.e**(power)
 
+        if self.sign(self.x-self.loc) == -1:
+                  y2 = self.loc - self.x
+                  power = -(y2 / self.scale)
+                  return 1 / (2 * self.scale) * math.e ** (power)
+
+    def cdf(self, x):
+        self.x = x
+        if self.x <= self.loc:
+            return 0.5*math.e**((self.x-self.loc)/self.scale)
+        else:
+            return 1-0.5*math.e**(-(self.x-self.loc)/self.scale)
+
+    def ppf(self, p):
+        self.p = p
+        if self.p <= 0.5:
+            return self.loc + self.scale*math.log(2*p)
+        else:
+            return self.loc - self.scale*math.log(2-2*p)
+
+    def gen_rand(self):
+        return self.ppf(self.rand.random())
+
+    def mean(self):
+        return self.loc
+
+    def variance(self):
+        return 2*self.scale**2
+
+    def skewness(self):
+        return 0
+
+    def ex_kurtosis(self):
+        return 3
+
+    def mvsk(self):
+        return [self.mean(), self.variance(), self.skewness(), self.ex_kurtosis()]
 
 
 
@@ -65,12 +104,12 @@ class ParetoDistribution:
         if self.shape > 3:
             return 2*(1+self.shape)/(self.shape-3)*((self.shape-2)/self.shape)**0.5
         else:
-            raise Exception("Moments undefined")
+            return math.inf
     def ex_kurtosis(self):
         if self.shape > 4:
             return (6*(self.shape**3+self.shape**2-6*self.shape-2))/(self.shape*(self.shape-3)*(self.shape-4))
         else:
-            raise Exception("Moments undefined")
+            return math.inf
 
 
 

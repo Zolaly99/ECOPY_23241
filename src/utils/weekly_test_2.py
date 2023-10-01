@@ -5,7 +5,7 @@ class LaplaceDistribution:
         self.scale = scale
         self.asymmetry = asymmetry
 
-    def sign(input_value: float) -> float:
+    def sign(self, input_value: float) -> float:
         return copysign(1, input_value)
 
     def pdf(self, x):
