@@ -1,4 +1,5 @@
 import scipy
+import math
 
 """
 1., Hozzan létre egy új osztályt aminek a neve LogisticDistribution. Definiáljon benne a __init__ nevű függvényt, amely bemenetként kap egy véletlenszám generátort, és az eloszlás várható értékét (location) és szórás (scale) paramétereit, amely értékeket adattagokba ment le.
@@ -53,14 +54,14 @@ import scipy
     kimeneti típus: List
 """
 class LogisticDistribution:
-    def __init__(self, rand, scale, shape):
+    def __init__(self, rand, location, scale):
         self.rand = rand
-        self.loc = scale
-        self.scale = shape
+        self.location = location
+        self.scale = scale
 
     def pdf(self, x):
      self.x = x
-     power = -(self.x - self.loc)/self.scale
+     power = -(self.x - self.location)/self.scale
      numerator = math.e**power
      denominator = self.scale*(1+math.e**power)**2
 
@@ -68,21 +69,21 @@ class LogisticDistribution:
 
     def cdf(self, x):
         self.x = x
-        power = -(self.x - self.loc)/self.scale
+        power = -(self.x - self.location)/self.scale
         denominator = 1+math.e**power
 
         return 1/denominator
 
     def ppf(self, p):
         self.p = p
-        return self.loc + self.scale*math.log(self.p/(1-self.p))
+        return self.location + self.scale*math.log(self.p/(1-self.p))
 
     def gen_rand(self):
         return self.ppf(self.rand.random())
 
 
     def mean(self):
-        return self.loc
+        return self.location
 
     def variance(self):
         return self.scale**2*math.pi**2/3
@@ -94,7 +95,7 @@ class LogisticDistribution:
         return 6/5
 
     def mvsk(self):
-        return [self.mean(), self.median(), self.skewness(), self.ex_kurtosis()]
+        return [self.mean(), self.variance(), self.skewness(), self.ex_kurtosis()]
 
 
 """
@@ -158,10 +159,10 @@ class ChiSquaredDistribution:
 
     def pdf(self, x):
         self.x = x
-        denominator = 2**(self.dof/2)*scipy.stats.gamma(self.dof/2)
+        denominator = 2**(self.dof/2)*(scipy.special.gamma(self.dof/2))
         numerator = self.x**(self.dof/2-1)*math.e**(-self.x/2)
 
-        return numerator / denominator
+        return numerator/denominator
 
     def cdf(self, x):
         self.x = x
@@ -171,7 +172,7 @@ class ChiSquaredDistribution:
     def ppf(self, p):
         self.p = p
 
-        return scipy.special.gammainc(self.dof/2, self.p)
+        return 2*scipy.special.gammaincinv(self.dof/2, self.p)
 
 
     def gen_rand(self):
@@ -193,4 +194,4 @@ class ChiSquaredDistribution:
 
 
     def mvsk(self):
-        return [self.mean(), self.median(), self.skewness(), self.ex_kurtosis()]
+        return [self.mean(), self.variance(), self.skewness(), self.ex_kurtosis()]

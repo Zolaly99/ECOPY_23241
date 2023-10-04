@@ -30,6 +30,10 @@ def number_of_elements_in_list(input_list):
 def remove_every_element_from_list(input_list):
     input_list.clear()
 
+# 10., Írjon egy függvényt ami fordított sorrendben adja vissza a lista összes elemét
+# függvény név: reverse_list
+# bemeneti paraméterek: input_list
+# kimeneti típus: List
 
 def reverse_list(input_list):
     x = [None]*len(input_list)
@@ -38,12 +42,20 @@ def reverse_list(input_list):
     input_list=x
     return input_list
 
+# 11., Írjon egy függvényt ami vissza adja a bemeneti lista páratlan elemeit
+# függvény név: odds_from_list
+# bemeneti paraméterek: input_list
+# kimeneti típus: List
 
 def odds_from_list(input_list):
     dummy = input_list.copy()
     dummy = [value for value in dummy if value % 2 == 1]
     return dummy
 
+# 12., Írjon egy függvényt ami megszámolja a bemeneti lista páratlan elemeit
+# függvény név: number_of_odds_in_list
+# bemeneti paraméterek: input_list
+# kimeneti típus: int
 
 def number_of_odds_in_list(input_list):
     count=0
@@ -52,6 +64,10 @@ def number_of_odds_in_list(input_list):
             count += 1
     return count
 
+# 13., Írjon egy függvényt ami visszaadja, hogy a bemeneti listának van-e páratlan eleme
+# függvény név: contains_odd
+# bemeneti paraméterek: input_list
+# kimeneti típus: bool
 
 def contains_odd(input_list):
     count = 0
@@ -63,11 +79,19 @@ def contains_odd(input_list):
     else:
         return True
 
+# 14., Írjon egy függvényt ami visszaadja a 2. legnagyobb elemet listában
+# függvény név: second_largest_in_list
+# bemeneti paraméterek: input_list
+# kimeneti típus: int
 
 def second_largest_in_list(input_list):
     input_list.sort()
     return input_list[len(input_list) - 2]
 
+# 15., Írjon egy függvényt ami kiszámítja a lista elemek összegét
+# függvény név: sum_of_elements_in_list
+# bemeneti paraméterek: input_list
+# kimeneti típus: float
 
 def sum_of_elements_in_list(input_list):
     sum_el=0
@@ -75,6 +99,10 @@ def sum_of_elements_in_list(input_list):
         sum_el += input_list[i]
     return float(sum_el)
 
+# 16., Írjon egy függvényt ami kiszámítja a lista elemek kumulált összegét
+# függvény név: cumsum_list
+# bemeneti paraméterek: input_list
+# kimeneti típus: List
 
 def cumsum_list(input_list):
     cumsum = [None] * len(input_list)
@@ -86,6 +114,12 @@ def cumsum_list(input_list):
         cumsum[i] = sum_el
     return cumsum
 
+# 17., Írjon egy függvényt ami kiszámítja 2 lista elemenként vett összegét
+# függvény név: element_wise_sum
+# bemeneti paraméterek: input_list1, input_list2
+# kimeneti típus: List
+
+#Itt a két listának ugyanakkorának kell lennie? Úgy veszem, hogy igen
 
 def element_wise_sum(input_list1, input_list2):
     x = [None] * len(input_list1)
@@ -94,12 +128,19 @@ def element_wise_sum(input_list1, input_list2):
 
     return x
 
-
+# 18., Írjon egy függvényt ami visszaadja egy lista, 2 tetszőleges index között vett rész listáját
+# függvény név: subset_of_list
+# bemeneti paraméterek: input_list, start_index, end_index
+# kimeneti típus: List
 
 def subset_of_list(input_list, start_index, end_index):
     x = input_list[start_index:end_index+1]
     return x
 
+# 19., Írjon egy függvényt ami visszaadja egy lista minden n-edik elemét listaként
+# függvény név: every_nth
+# bemeneti paraméterek: input_list, step_size
+# kimeneti típus: List
 
 def every_nth(input_list, step_size):
     x = [None] * (len(input_list) // step_size + 1)
@@ -107,6 +148,10 @@ def every_nth(input_list, step_size):
         x[i] = input_list[0:(len(input_list)):step_size][i]
     return x
 
+# 20., Írjon egy függvényt ami eldönti, hogy a lista minden eleme egyedi-e
+# függvény név: only_unique_in_list
+# bemeneti paraméterek: input_list
+# kimeneti típus: bool
 
 def only_unique_in_list(input_list):
     sum_el = 0
@@ -121,6 +166,10 @@ def only_unique_in_list(input_list):
     else:
         return False
 
+# 21., Írjon egy függvényt amely eltávolítja a duplikált lista elemeket
+# függvény név: keep_unique
+# bemeneti paraméterek: input_list
+# kimeneti típus: List
 
 def keep_unique(input_list):
     for i in range(len(input_list)):
@@ -133,6 +182,10 @@ def keep_unique(input_list):
 
     return input_list
 
+# 22., Írjon egy függvényt amely kicserél 2 tetszőleges elemet a listában
+# függvény név: swap
+# bemeneti paraméterek: input_list, first_index, second_index
+# kimeneti típus: List
 
 def swap(input_list, first_index, second_index):
     first = input_list[first_index]
@@ -142,6 +195,10 @@ def swap(input_list, first_index, second_index):
 
     return input_list
 
+# 23., Írjon egy függvényt amely töröl egy megadott elemet a listából
+# függvény név: remove_element_by_value
+# bemeneti paraméterek: input_list, value_to_remove
+# kimeneti típus: List
 
 def remove_element_by_value(input_list, value_to_remove):
     for i in range(len(input_list)):
@@ -152,6 +209,10 @@ def remove_element_by_value(input_list, value_to_remove):
 
     return input_list
 
+# 24., Írjon egy függvényt amely töröl egy megadott indexű elemet a listából
+# függvény név: remove_element_by_index
+# bemeneti paraméterek: input_list, index
+# kimeneti típus: List
 
 def remove_element_by_index(input_list, index):
     for i in range(len(input_list)):
@@ -162,6 +223,10 @@ def remove_element_by_index(input_list, index):
 
     return input_list
 
+# 25., Írjon egy függvényt amely egy tetszőleges számmal megszorozza a lista összes elemét
+# függvény név: multiply_every_element
+# bemeneti paraméterek: input_list, multiplier
+# kimeneti típus: List
 
 def multiply_every_element(input_list, multiplier):
     for i in range(len(input_list)):
@@ -169,6 +234,10 @@ def multiply_every_element(input_list, multiplier):
 
     return input_list
 
+# 4., Írjon egy függvényt amely töröl egy megadott kulcsú elemet a dict.-ből
+# függvény név: remove_key
+# bemeneti paraméterek: input_dict, key
+# kimeneti típus: Dict
 
 def remove_key(input_dict, key):
     if key in input_dict.keys():
@@ -177,20 +246,36 @@ def remove_key(input_dict, key):
     else:
         return input_dict
 
+# 5., Írjon egy függvényt amely a sorba rendezi a kulcs-érték párokat a kulcs értéke szerint egy dictionary-ben
+# függvény név: sort_by_key
+# bemeneti paraméterek: input_dict
+# kimeneti típus: Dict
 
 def sort_by_key(input_dict):
     return dict(sorted(input_dict.items()))
 
+# 6., Írjon egy függvényt amely összeadja a dict.-ben található összes értéket
+# függvény név: sum_in_dict
+# bemeneti paraméterek: input_dict
+# kimeneti típus: float
 
 def sum_in_dict(input_dict):
     dictvalues = sum(input_dict.values())
     return dictvalues
 
+# 7., Írjon egy függvényt amely összekapcsol 2 dictionary-t 1 dict.-ben
+# függvény név: merge_two_dicts
+# bemeneti paraméterek: input_dict1, input_dict2
+# kimeneti típus: Dict
+
 def merge_two_dicts(input_dict1, input_dict2):
     conc_dict = input_dict1 | input_dict2
     return conc_dict
 
-
+# 8., Írjon egy függvényt amely összekapcsol n dictionary-t 1 dict.-ben
+# függvény név: merge_dicts
+# bemeneti paraméterek: *dicts
+# kimeneti típus: Dict
 
 def merge_dicts(*dicts):
     superdict=dict()
@@ -198,7 +283,10 @@ def merge_dicts(*dicts):
         superdict.update(dicts[i])
     return superdict
 
-
+# 9., Írjon egy függvényt amely a bemeneti, pozitív egész számokat tartalmazó listát kiválogatja páros és páratlan számokra, és visszaad egy olyan dictionary-t, amelyben a kulcs az 'even' és 'odd', az értékek, pedig a listák.
+# függvény név: sort_list_by_parity
+# bemeneti paraméterek: input_list
+# kimeneti típus: Dict
 
 def sort_list_by_parity(input_list):
     even=list()
@@ -214,6 +302,10 @@ def sort_list_by_parity(input_list):
 }
     return superdict
 
+# 10., Írjon egy függvényt amely a bemenetként kapott dictionary értékeinél található listák átlagait adja vissza egy új dictionary-be. {"some_key":[1,2,3,4],"another_key":[1,2,3,4],....} -> {"some_key":mean_of_values,"another_key":mean_of_values,....}
+# függvény név: mean_by_key_value
+# bemeneti paraméterek: input_dict
+# kimeneti típus: Dict
 
 def mean_by_key_value(input_dict):
     dummydict = dict()
@@ -225,6 +317,10 @@ def mean_by_key_value(input_dict):
 
     return dummydict
 
+# 11., Írjon egy függvényt amely a bemeneti lista értékeinek előállítja a gyakoriságát
+# függvény név: count_frequency
+# bemeneti paraméterek: input_list
+# kimeneti típus: Dict
 
 def count_frequency(input_list):
     count = [None] * len(input_list)
