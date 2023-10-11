@@ -76,6 +76,25 @@ def scatter_goals_shots(input_df):
     plt.xlabel("Goals")
     plt.ylabel("Shots on target")
 
+
+def scatter_goals_shots_by_quartile(df):
+    color = ['red', 'blue', 'orange', 'green']
+
+    df.loc[df['Quartile'] == 1, 'color'] = 'R'
+    df.loc[df['Quartile'] == 2, 'color'] = 'O'
+    df.loc[df['Quartile'] == 3, 'color'] = 'B'
+    df.loc[df['Quartile'] == 4, 'color'] = 'G'
+
+    fig, ax = plt.subplots(figsize=(6, 6))
+    colors = {'R': 'tab:red', 'O': 'tab:orange', 'B': 'tab:blue', 'G': 'tab:green'}
+    ax.scatter(df['Goals'], df['Shots on target'], c=df['color'].map(colors))
+
+    handles = [Line2D([0], [0], marker='o', color='w', markerfacecolor=v, label=k, markersize=8) for k, v in
+               colors.items()]
+    ax.legend(title='Quartiles', handles=handles, bbox_to_anchor=(1.05, 1), loc='upper left')
+    plt.show()
+
+
 #---Pareto eloszlás --- (ezután jön az utolsó fv.)
 class ParetoDistribution:
     def __init__(self, rand, scale, shape):
