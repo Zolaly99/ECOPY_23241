@@ -22,7 +22,7 @@ def avg_goal(input_df):
     return input_df["Goals"].mean()
 
 def countries_over_five(input_df):
-    return input_df.loc[input_df["Goals"]>=6,:]["Team"]
+    return pd.DataFrame(input_df.loc[input_df["Goals"]>=6,:]["Team"])
 
 
 def countries_starting_with_g(input_df):
@@ -30,8 +30,9 @@ def countries_starting_with_g(input_df):
     for i in range(len(input_df)):
         if df["Team"][i].startswith("G") == True:
             list_.append(df["Team"][i])
-
-    return list_
+    series = pd.DataFrame(list_).squeeze()
+    series.name="Team"
+    return series
 
 
 
@@ -40,12 +41,17 @@ def first_seven_columns(input_df):
 
 
 def every_column_except_last_three(input_df):
-    return df.iloc[:, 1:len(input_df.columns)-2]
+    return df.iloc[:, 0:len(input_df.columns)-3]
 
-
-def generate_quartile(input_df):
+def sliced_view(input_df, columns_to_keep, column_to_filter, rows_to_keep):
     input_df2 = input_df.copy()
-    input_df2["Quartile"] = ""
+    input_df3 = input_df2.loc[df[column_to_filter].isin(rows_to_keep),columns_to_keep]
+    return input_df3
+
+
+def generate_quarters(input_df):
+    input_df2 = input_df.copy()
+    input_df2["Quartile"] = 0
     for i in range(len(input_df2)):
         if 6 <= input_df2["Goals"][i] <= 12:
             input_df2["Quartile"][i] = 1
@@ -62,13 +68,14 @@ def generate_quartile(input_df):
 
 
 def average_yellow_in_quartiles(input_df):
-    dummy_list = ['Yellow Cards']
-    return input_df.groupby('Quartile')[dummy_list].mean().reset_index()
+    dummy_list = ['Passes']
+    return input_df.groupby('Quartile')[dummy_list].mean().reset_index()["Passes"]
 
 
 def minmax_block_in_quartile(input_df):
     input_df2 = input_df.copy()
-    return input_df2.groupby('Quartile').agg({'Blocks': ['min', 'max']})
+    input_df3 = input_df2.groupby('Quartile').agg({'Blocks': ['min', 'max']}).reset_index()["Blocks"]
+    return input_df3
 
 
 def scatter_goals_shots(input_df):
@@ -166,6 +173,7 @@ def gen_pareto_mean_trajectories(pareto_distribution, number_of_trajectories, le
             trajectory.append(pareto_distribution.gen_rand())
             trajectory_mean.append(sum(trajectory)/(i+1))
         trajectories.append(trajectory_mean)
+
     return trajectories
 
 trajectories = gen_pareto_mean_trajectories(ParetoDistribution(rand = random, shape = 1, scale = 1),10,200)
