@@ -41,7 +41,7 @@ def items_starting_with_s(input_df):
     list_ = []
     for i in range(len(input_df)):
         if input_df["item_name"][i].startswith("S") == True:
-            list_.append(df["item_name"][i])
+            list_.append(input_df["item_name"][i])
     series = pd.DataFrame(list_).squeeze()
     series.name="item_name"
     return series.unique()
