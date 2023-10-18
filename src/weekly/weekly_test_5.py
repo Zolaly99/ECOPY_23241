@@ -22,7 +22,7 @@ def items_and_prices(input_df):
 
 def sorted_by_price(input_df):
     list_ = ["item_name", "item_price"]
-    df2 = df[list_]
+    df2 = input_df[list_]
     return df2.sort_values("item_price", ascending = False)
 
 
