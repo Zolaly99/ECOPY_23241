@@ -16,7 +16,7 @@ def number_of_observations(input_df):
 
 def items_and_prices(input_df):
     list_ = ["item_name", "item_price"]
-    df2 = df[list_]
+    df2 = input_df[list_]
     return df2
 
 
