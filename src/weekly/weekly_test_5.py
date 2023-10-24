@@ -41,7 +41,7 @@ def items_starting_with_s(input_df):
     #list_.append('item_name')
     for i in range(len(input_df)):
         if input_df["item_name"][i].startswith("S") == True:
-            list_.append(df["item_name"][i])
+            list_.append(input_df["item_name"][i])
     set(list_)
     series = pd.DataFrame(list_).squeeze()
     series = pd.Series(series.unique())
@@ -51,12 +51,12 @@ def items_starting_with_s(input_df):
 
 
 def first_three_columns(input_df):
-    return df.iloc[:, 0:3]
+    return input_df.iloc[:, 0:3]
 
 
 
 def every_column_except_last_two(input_df):
-    return df.iloc[:, 0:len(input_df.columns)-2]
+    return input_df.iloc[:, 0:len(input_df.columns)-2]
 
 
 
