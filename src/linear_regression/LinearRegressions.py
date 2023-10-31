@@ -3,9 +3,6 @@ import pandas as pd
 #from statsmodels.api import OLS
 
 
-
-
-
 import statsmodels.api as sm
 class LinearRegressionSM():
 
