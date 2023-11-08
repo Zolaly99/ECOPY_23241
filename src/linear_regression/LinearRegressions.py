@@ -76,7 +76,6 @@ class LinearRegressionNP:
         f_stat.astype(float)
         p_value.astype(float)
         return f'Wald: {round(f_stat,3)}, p-value: {round(p_value,3)}'
-        #return f'F-value: {f_stat:.3}, p-value: {p_val:.3}'
 
     def get_model_goodness_values(self):
         y_demean = self.left_hand_side-sum(self.left_hand_side)/len(self.left_hand_side)
