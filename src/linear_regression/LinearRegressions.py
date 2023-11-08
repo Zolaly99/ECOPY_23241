@@ -64,7 +64,8 @@ class LinearRegressionNP:
         self.se = np.sqrt(self.se_sq)
         self.t_stats = np.divide(self.params, self.se)
         self.abs_t_stats = abs(self.t_stats)
-        p_values = (1-scipy.stats.t.cdf(self.abs_t_stats, self.n-self.p))*2
+        term = np.minimum(scipy.stats.t.cdf(self.t_stats, self.n-self.p),1-scipy.stats.t.cdf(self.t_stats, self.n-self.p))
+        p_values = (term)*2
         return pd.Series(p_values, name='P-values for the corresponding coefficients')
 
     def get_wald_test_result(self, restr_matrix):
