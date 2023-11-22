@@ -2,6 +2,8 @@ import pandas as pd
 import statsmodels.api as sm
 import numpy as np
 import scipy
+from scipy.stats import norm
+from scipy.optimize import minimize
 
 
 
@@ -93,6 +95,7 @@ class LinearRegressionNP:
 
 
 
+
 class LinearRegressionGLS:
     def __init__(self, left_hand_side, right_hand_side):
         self.left_hand_side = left_hand_side
@@ -172,3 +175,77 @@ class LinearRegressionGLS:
         r2 = 1 - SSE / SST
         adj_r2 = 1 - (self.n - 1) / (self.n - self.p) * (1 - r2)
         return f'Centered R-squared: {r2:.3f}, Adjusted R-squared: {adj_r2:.3f}'
+
+
+
+
+class LinearRegressionML:
+    def __init__(self, left_hand_side, right_hand_side):
+        self.left_hand_side = left_hand_side
+        self.right_hand_side = right_hand_side
+        self.right_hand_side = sm.add_constant(self.right_hand_side)
+        self._model = None
+
+    def fit(self):
+        def MLE_Norm(parameters):
+            # extract parameters
+            beta0, beta1, beta2, beta3, std_dev = parameters
+            # predict the output
+            pred = beta0 * self.right_hand_side.iloc[:, 0] + beta1 * self.right_hand_side.iloc[:,
+                                                                     1] + beta2 * self.right_hand_side.iloc[:,
+                                                                                  2] + beta3 * self.right_hand_side.iloc[
+                                                                                               :, 3]
+            # Calculate the log-likelihood for normal distribution
+            LL = np.sum(scipy.stats.norm.logpdf(self.left_hand_side, pred, std_dev))
+            # Calculate the negative log-likelihood
+            neg_LL = -1 * LL
+            return neg_LL
+
+        self.model_ = minimize(MLE_Norm, np.array([0.1, 0.1, 0.1, 0.1, 0.1]), method='Nelder-Mead', tol=1e-6)
+
+    def get_params(self):
+        self.params = self.model_.x[0:4]
+        return pd.Series(self.model_.x[0:4], name='Beta coefficients')
+
+    def get_pvalues(self):
+        self.get_params()
+        self.xTx = np.dot(np.transpose(self.right_hand_side), self.right_hand_side)
+
+        self.xTx_inv = np.linalg.inv(self.xTx)
+        self.n = len(self.left_hand_side)
+        self.p = len(self.right_hand_side.columns)
+        self.var = (self.model_.x[4])**2*self.n/(self.n-self.p)
+        self.se_sq = self.var * np.diag(self.xTx_inv)
+        self.se = np.sqrt(self.se_sq)
+        self.t_stats = np.divide(self.params, self.se)
+        term = np.minimum(scipy.stats.t.cdf(self.t_stats, self.n - self.p),
+                          1 - scipy.stats.t.cdf(self.t_stats, self.n - self.p))
+        p_values = (term) * 2
+        return pd.Series(p_values, name='P-values for the corresponding coefficients')
+
+    def get_model_goodness_values(self):
+        self.get_params()
+        self.get_pvalues()
+        self.errors = self.left_hand_side - np.dot(self.right_hand_side, self.params)
+        y_demean = self.left_hand_side - sum(self.left_hand_side) / len(self.left_hand_side)
+        yTy = np.dot(np.transpose(y_demean), y_demean)
+        SSE = np.dot(np.transpose(self.errors), self.errors)
+        SST = yTy
+        r2 = round(1 - SSE / SST, 3)
+        adj_r2 = round(1 - (self.n - 1) / (self.n - self.p) * (1 - r2), 3)
+        return f'Centered R-squared: {r2:.3f}, Adjusted R-squared: {adj_r2:.3f}'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
